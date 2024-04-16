@@ -13,12 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
 import android.widget.HeaderViewListAdapter
 import androidx.drawerlayout.widget.DrawerLayout
-import android.util.Log
 
 class httpHub : AppCompatActivity() {
     private lateinit var txtCommandName: Any
-    private lateinit var sidebar: ListView
-    private lateinit var toggleButton: Button
+    private lateinit var commandSidebar: ListView
+    private lateinit var btnOpenCommandSidebar: Button
+    private lateinit var btnOpenScanbar: Button
     
     private lateinit var addButton: Button
     private lateinit var drawerLayout: DrawerLayout
@@ -28,32 +28,37 @@ class httpHub : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_http_hub)
 
-        sidebar = findViewById(R.id.sidebar)
-        toggleButton = findViewById(R.id.btnToggleSidebar)
+        commandSidebar = findViewById(R.id.sidebar)
+        btnOpenCommandSidebar = findViewById(R.id.btnToggleSidebar)
         drawerLayout = findViewById(R.id.drawer_layout)
         txtCommandName = findViewById(R.id.txtCommandName)
+        btnOpenScanbar = findViewById(R.id.btnToggleScanbar)
 
         val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, commandList)
-        sidebar.adapter = adapter
+        commandSidebar.adapter = adapter
 
-        toggleButton.setOnClickListener {
-            drawerLayout.openDrawer(sidebar)
+        btnOpenCommandSidebar.setOnClickListener {
+            drawerLayout.openDrawer(commandSidebar)
         }
 
-        sidebar.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            drawerLayout.closeDrawer(sidebar)
+        commandSidebar.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            drawerLayout.closeDrawer(commandSidebar)
             openCommandFragment(commandList[position])
+        }
+
+        btnOpenScanbar.setOnClickListener {
+            openPingResultsFragment()
         }
 
         // Add button to add command to the sidebar
         val inflater = layoutInflater
-        val footerView = inflater.inflate(R.layout.sidebar_footer, sidebar, false)
-        sidebar.addFooterView(footerView)
+        val footerView = inflater.inflate(R.layout.sidebar_footer, commandSidebar, false)
+        commandSidebar.addFooterView(footerView)
 
         val addButton = footerView.findViewById<Button>(R.id.btnAddCommand)
         addButton.setOnClickListener {
             addCommand()
-            drawerLayout.closeDrawer(sidebar) // Close sidebar after adding a command
+            drawerLayout.closeDrawer(commandSidebar) // Close sidebar after adding a command
         }
     }
 
@@ -69,16 +74,17 @@ class httpHub : AppCompatActivity() {
         transaction.commit()
     }
 
+    private fun openPingResultsFragment() {
+        val fragment = PingResultsFragment()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.main_container, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
     private fun addCommand() {
-        Log.d("Getting ips", "start")
-        val ips = pingRange("192.168.0.1", "192.168.0.254")
-        Log.d("Getting ips", "end")
-        for (ip in ips){
-            Log.d("Ping", "Reachable address: $ip")
-            commandList.add(ip)
-        }
         commandList.add("New Command ${commandList.size + 1}")
-        val adapter = (sidebar.adapter as HeaderViewListAdapter).wrappedAdapter as ArrayAdapter<*>
+        val adapter = (commandSidebar.adapter as HeaderViewListAdapter).wrappedAdapter as ArrayAdapter<*>
         adapter.notifyDataSetChanged()
     }
 

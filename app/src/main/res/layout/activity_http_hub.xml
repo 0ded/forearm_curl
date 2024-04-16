@@ -8,17 +8,33 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <Button
-            android:id="@+id/btnToggleSidebar"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="16dp"
-            android:drawableLeft="@drawable/open_http_list_icon">
+            android:orientation="horizontal"
+            android:id="@+id/topBar">
+            <Button
+                android:id="@+id/btnToggleSidebar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="16dp"
+                android:drawableLeft="@drawable/open_http_list_icon">
 
-        </Button>
+            </Button>
 
+            <Button
+                android:id="@+id/btnToggleScanbar"
+                android:text="devices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="200dp"
+                >
+
+            </Button>
+        </LinearLayout>
         <TextView
             android:id="@+id/txtCommandName"
             android:layout_width="wrap_content"
@@ -31,7 +47,7 @@
             android:id="@+id/main_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/btnToggleSidebar"
+            android:layout_below="@id/topBar"
             android:background="@android:color/background_light"/>
 
     </RelativeLayout>
@@ -42,5 +58,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/background_light"/>
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
