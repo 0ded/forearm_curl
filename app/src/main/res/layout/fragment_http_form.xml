@@ -10,6 +10,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <EditText
+            android:id="@+id/commandName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:textSize="20dp"
+            android:hint="Enter Command" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Spinner
             android:layout_width="110dp"
@@ -19,22 +32,10 @@
             android:id="@+id/editTextCommand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="15dp"
+            android:textSize="20dp"
             android:hint="Enter Command" />
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="274dp">
-
-        <ListView
-            android:id="@+id/http_params"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:background="@android:color/background_light"/>
-    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -60,5 +61,31 @@
             android:layout_height="wrap_content"
             android:text="SEND REQUEST"
             android:id="@+id/btnSendReq"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/reqResult"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="20dp"
+            android:hint="Response"
+            android:outlineAmbientShadowColor="@color/cardview_dark_background" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="COPY RESPONSE"
+            android:id="@+id/btnCopyResult"/>
     </LinearLayout>
 </LinearLayout>

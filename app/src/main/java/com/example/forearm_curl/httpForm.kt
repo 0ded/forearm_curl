@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import java.io.BufferedReader
 import java.io.DataOutputStream
@@ -18,11 +17,13 @@ import java.net.URL
 
 class CommandFragment : Fragment() {
 
-    private lateinit var txtCommandName: TextView
-    private lateinit var editTextCommand: EditText
-
-    private lateinit var btnSendReq: Button
+    private lateinit var txtCommandName: EditText
     private lateinit var httpMethodSelector: Spinner
+    private lateinit var editTextCommand: EditText
+    private lateinit var dataAttached: EditText
+    private lateinit var reqResult: EditText
+    private lateinit var btnSendReq: Button
+    private lateinit var btnCopyResult: Button
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,9 +32,13 @@ class CommandFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_http_form, container, false)
 
-        editTextCommand = view.findViewById(R.id.editTextCommand)
+        txtCommandName = view.findViewById(R.id.commandName)
         httpMethodSelector = view.findViewById(R.id.httpMethodSelector)
+        editTextCommand = view.findViewById(R.id.editTextCommand)
+        dataAttached = view.findViewById(R.id.dataAttached)
+        reqResult = view.findViewById(R.id.reqResult)
         btnSendReq = view.findViewById(R.id.btnSendReq)
+        btnCopyResult = view.findViewById(R.id.btnCopyResult)
 
         val httpMethods = ArrayAdapter(requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -42,10 +47,12 @@ class CommandFragment : Fragment() {
         httpMethods.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         httpMethodSelector.adapter = httpMethods
 
+
+
         arguments?.let { args ->
             val commandName = args.getString("commandName")
             commandName?.let {
-                txtCommandName.text = it
+                txtCommandName.setText(it)
             }
         }
 

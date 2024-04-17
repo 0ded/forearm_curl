@@ -74,45 +74,6 @@ std::vector<std::string> pingRange(const std::string& startAddr, const std::stri
 }
 
 
-extern "C" {
-    JNIEXPORT jstring
-    JNICALL
-    Java_com_example_forearm_1curl_MainActivity_stringFromJNI(
-            JNIEnv *env,
-            jobject /* this */)
-            {
-        std::string hello = "Hello from C++";
-        return env->NewStringUTF(hello.c_str());
-    }
-
-    JNIEXPORT jobject
-    JNICALL
-    Java_com_example_forearm_1curl_httpHub_pingRange(JNIEnv *env, jobject obj, jstring startAddr, jstring endAddr)
-    {
-        jclass arrayListClass = env->FindClass("java/util/ArrayList");
-        jmethodID arrayListConstructor = env->GetMethodID(arrayListClass, "<init>", "()V");
-        jmethodID arrayListAdd = env->GetMethodID(arrayListClass, "add", "(Ljava/lang/Object;)Z");
-
-        const char* startAddrStr = env->GetStringUTFChars(startAddr, NULL);
-        const char* endAddrStr = env->GetStringUTFChars(endAddr, NULL);
-
-
-        auto reachableAddresses = pingRange(startAddrStr, endAddrStr);
-
-        env->ReleaseStringUTFChars(startAddr, startAddrStr);
-        env->ReleaseStringUTFChars(endAddr, endAddrStr);
-
-        jobject arrayList = env->NewObject(arrayListClass, arrayListConstructor);
-        for (const auto& addr : reachableAddresses) {
-            jstring jAddr = env->NewStringUTF(addr.c_str());
-            env->CallBooleanMethod(arrayList, arrayListAdd, jAddr);
-        }
-
-        return arrayList;
-    }
-}
-
-
 extern "C"
 JNIEXPORT jobject JNICALL
 Java_com_example_forearm_1curl_PingResultsFragment_pingRange(JNIEnv *env, jobject thiz,

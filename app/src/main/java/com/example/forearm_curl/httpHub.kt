@@ -124,13 +124,4 @@ class httpHub : AppCompatActivity() {
         connection.disconnect()
         return response.toString()
     }
-
-//    external fun pingRange(startAddr: String, endAddr: String): ArrayList<String>
-//
-//    companion object {
-//        // Used to load the 'forearm_curl' library on application startup.
-//        init {
-//            System.loadLibrary("forearm_curl")
-//        }
-//    }
 }
