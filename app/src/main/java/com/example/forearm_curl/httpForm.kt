@@ -9,11 +9,15 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.DataOutputStream
+import java.io.IOException
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
+import kotlinx.coroutines.*
 
 class CommandFragment : Fragment() {
 
@@ -47,12 +51,30 @@ class CommandFragment : Fragment() {
         httpMethods.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         httpMethodSelector.adapter = httpMethods
 
-
-
         arguments?.let { args ->
             val commandName = args.getString("commandName")
             commandName?.let {
                 txtCommandName.setText(it)
+            }
+        }
+
+        btnSendReq.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val url = editTextCommand.text.toString()
+                val method = httpMethodSelector.selectedItem.toString()
+                var data = dataAttached.text.toString()
+                var response = ""
+                if (method != "GET"){
+                    response = withContext(Dispatchers.IO) {
+                        sendCustomHttpRequest(url, method, null, data)
+                    }
+                }
+                else {
+                    response = withContext(Dispatchers.IO) {
+                        sendCustomHttpRequest(url, method, null, null)
+                    }
+                }
+                reqResult.setText(response)
             }
         }
 
@@ -68,10 +90,13 @@ class CommandFragment : Fragment() {
             connection.setRequestProperty(key, value)
         }
 
+        val outputStream = connection.outputStream ?: throw IOException("Output stream is null")
+        val dataOutputStream = DataOutputStream(outputStream)
+
         // Set request body if provided
         requestBody?.let {
             connection.doOutput = true
-            val outputStream = DataOutputStream(connection.outputStream)
+            val outputStream = dataOutputStream
             outputStream.writeBytes(it)
             outputStream.flush()
             outputStream.close()
@@ -93,6 +118,7 @@ class CommandFragment : Fragment() {
         }
 
         connection.disconnect()
+
         return response.toString()
     }
 
