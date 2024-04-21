@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ListView
 import androidx.fragment.app.Fragment
 import kotlinx.coroutines.*
@@ -13,6 +14,9 @@ import kotlinx.coroutines.*
 class PingResultsFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var refreshButton: Button
+    private lateinit var startIpRange: EditText
+    private lateinit var endIpRange: EditText
+
     private lateinit var adapter: ArrayAdapter<String>
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -20,6 +24,8 @@ class PingResultsFragment : Fragment() {
 
         listView = view.findViewById(R.id.listPingResults)
         refreshButton = view.findViewById(R.id.btnRefresh)
+        startIpRange =  view.findViewById(R.id.startIPRange)
+        endIpRange =  view.findViewById(R.id.endIPRange)
 
         adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1)
         listView.adapter = adapter
@@ -35,17 +41,9 @@ class PingResultsFragment : Fragment() {
         // Clear previous results
         adapter.clear()
 
-        // Perform ICMP ping for example IP addresses
-        val addressesToPing = listOf(
-            "192.168.0.1",
-            "192.168.0.43",
-            "192.168.0.10",
-            "192.168.0.254"
-        ) // Example IP addresses
-
         CoroutineScope(Dispatchers.IO).launch {
             val reachables = withContext(Dispatchers.IO) {
-                pingRange("192.168.0.9", "192.168.0.11")
+                pingRange(startIpRange.text.toString(), endIpRange.text.toString())
             }
             for (address in reachables) {
                 val reachable = withContext(Dispatchers.IO) {
