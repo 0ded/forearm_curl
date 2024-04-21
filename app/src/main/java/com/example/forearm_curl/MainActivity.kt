@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Example of a call to a native method
+       
         binding.sampleText.text = stringFromJNI()
     }
 
@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     external fun stringFromJNI(): String
 
     companion object {
-        // Used to load the 'forearm_curl' library on application startup.
+       
         init {
             System.loadLibrary("forearm_curl")
         }

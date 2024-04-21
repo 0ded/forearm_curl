@@ -22,7 +22,7 @@ class httpHub : AppCompatActivity() {
     
     private lateinit var addButton: Button
     private lateinit var drawerLayout: DrawerLayout
-    private val commandList = mutableListOf("Command 1", "Command 2", "Command 3") // Sample command list
+    private val commandList = mutableListOf("Command 1", "Command 2", "Command 3")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,7 @@ class httpHub : AppCompatActivity() {
             openPingResultsFragment()
         }
 
-        // Add button to add command to the sidebar
+       
         val inflater = layoutInflater
         val footerView = inflater.inflate(R.layout.sidebar_footer, commandSidebar, false)
         commandSidebar.addFooterView(footerView)
@@ -58,7 +58,7 @@ class httpHub : AppCompatActivity() {
         val addButton = footerView.findViewById<Button>(R.id.btnAddCommand)
         addButton.setOnClickListener {
             addCommand()
-            drawerLayout.closeDrawer(commandSidebar) // Close sidebar after adding a command
+            drawerLayout.closeDrawer(commandSidebar)
         }
     }
 
@@ -92,12 +92,12 @@ class httpHub : AppCompatActivity() {
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.requestMethod = method
 
-        // Set request headers if provided
+       
         headers?.forEach { (key, value) ->
             connection.setRequestProperty(key, value)
         }
 
-        // Set request body if provided
+       
         requestBody?.let {
             connection.doOutput = true
             val outputStream = DataOutputStream(connection.outputStream)

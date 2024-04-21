@@ -29,14 +29,14 @@ std::map<std::string, std::string> extractParams(const std::string& uri) {
 
     size_t pos = uri.find('?');
     if (pos != std::string::npos) {
-        // Extract parameters after '?'
+
         std::string paramString = uri.substr(pos + 1);
 
-        // Tokenize the parameter string by '&'
+
         std::istringstream iss(paramString);
         std::string token;
         while (std::getline(iss, token, '&')) {
-            // Tokenize each parameter by '=' to separate key and value
+
             size_t equalsPos = token.find('=');
             if (equalsPos != std::string::npos) {
                 std::string key = token.substr(0, equalsPos);
@@ -54,13 +54,13 @@ std::map<std::string, std::string> extractParams(const std::string& uri) {
 std::vector<std::string> pingRange(const std::string& startAddr, const std::string& endAddr) {
     std::vector<std::string> reachableAddresses;
 
-    // Convert start and end addresses to integer representation
+
     unsigned int start = inet_addr(startAddr.c_str());
     unsigned int end = inet_addr(endAddr.c_str());
 
-    // Ping each address in the range
+
     for (unsigned int i = htonl(start); i <= htonl(end); ++i) {
-        // Convert integer back to IP address format
+
         struct in_addr addr;
         addr.s_addr = htonl(i);
         std::string address = std::string(inet_ntoa(addr));

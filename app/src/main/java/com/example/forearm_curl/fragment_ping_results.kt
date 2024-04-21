@@ -32,16 +32,16 @@ class PingResultsFragment : Fragment() {
     }
 
     private fun refreshPingResults() {
-        // Clear previous results
+       
         adapter.clear()
 
-        // Perform ICMP ping for example IP addresses
+       
         val addressesToPing = listOf(
             "192.168.0.1",
             "192.168.0.43",
             "192.168.0.10",
             "192.168.0.254"
-        ) // Example IP addresses
+        )
 
         CoroutineScope(Dispatchers.IO).launch {
             val reachables = withContext(Dispatchers.IO) {
@@ -52,7 +52,7 @@ class PingResultsFragment : Fragment() {
                     PingUtil.ping(address)
                 }
 
-                // Update UI on Main dispatcher
+               
                 withContext(Dispatchers.Main) {
                     val result = "$address is ${if (reachable) "reachable" else "unreachable"}"
                     adapter.add(result)
@@ -65,7 +65,7 @@ class PingResultsFragment : Fragment() {
     external fun pingRange(startAddr: String, endAddr: String): ArrayList<String>
 
     companion object {
-        // Used to load the 'forearm_curl' library on application startup.
+       
         init {
             System.loadLibrary("forearm_curl")
         }

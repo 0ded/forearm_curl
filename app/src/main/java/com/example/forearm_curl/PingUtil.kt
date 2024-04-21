@@ -9,7 +9,7 @@ object PingUtil {
         Log.d("t", targetAddress)
         return try {
             val inetAddress = InetAddress.getByName(targetAddress)
-            inetAddress.isReachable(5000) // Ping timeout in milliseconds
+            inetAddress.isReachable(5000)
         } catch (e: IOException) {
             e.printStackTrace()
             e.message?.let { Log.d("t", it) }

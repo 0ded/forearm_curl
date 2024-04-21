@@ -85,7 +85,7 @@ class CommandFragment : Fragment() {
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.requestMethod = method
 
-        // Set request headers if provided
+       
         headers?.forEach { (key, value) ->
             connection.setRequestProperty(key, value)
         }
@@ -93,7 +93,7 @@ class CommandFragment : Fragment() {
         val outputStream = connection.outputStream ?: throw IOException("Output stream is null")
         val dataOutputStream = DataOutputStream(outputStream)
 
-        // Set request body if provided
+       
         requestBody?.let {
             connection.doOutput = true
             val outputStream = dataOutputStream
