@@ -8,6 +8,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Refresh"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/startIPRange"
+            android:hint="start ip range">
+
+        </EditText>
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/endIPRange"
+            android:hint="end ip range">
+
+        </EditText>
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listPingResults"

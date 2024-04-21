@@ -64,15 +64,8 @@ class CommandFragment : Fragment() {
                 val method = httpMethodSelector.selectedItem.toString()
                 var data = dataAttached.text.toString()
                 var response = ""
-                if (method != "GET"){
-                    response = withContext(Dispatchers.IO) {
-                        sendCustomHttpRequest(url, method, null, data)
-                    }
-                }
-                else {
-                    response = withContext(Dispatchers.IO) {
-                        sendCustomHttpRequest(url, method, null, null)
-                    }
+                response = withContext(Dispatchers.IO) {
+                    sendCustomHttpRequest(url, method, null, data)
                 }
                 reqResult.setText(response)
             }
@@ -85,21 +78,28 @@ class CommandFragment : Fragment() {
         val connection = URL(url).openConnection() as HttpURLConnection
         connection.requestMethod = method
 
-       
+
         headers?.forEach { (key, value) ->
             connection.setRequestProperty(key, value)
         }
 
-        val outputStream = connection.outputStream ?: throw IOException("Output stream is null")
-        val dataOutputStream = DataOutputStream(outputStream)
+        if (method == "POST") {
+            try {
+                val outputStream = connection.outputStream
+                val dataOutputStream = DataOutputStream(outputStream)
 
-       
-        requestBody?.let {
-            connection.doOutput = true
-            val outputStream = dataOutputStream
-            outputStream.writeBytes(it)
-            outputStream.flush()
-            outputStream.close()
+                if (requestBody != null) {
+                    requestBody?.let {
+                        connection.doOutput = true
+                        val outputStream = dataOutputStream
+                        outputStream.writeBytes(it)
+                        outputStream.flush()
+                        outputStream.close()
+                    }
+                }
+            } catch (e: Exception) {
+                return "Error: " + e.message
+            }
         }
 
         val responseCode = connection.responseCode
