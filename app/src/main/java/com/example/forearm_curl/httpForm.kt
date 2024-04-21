@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.DataOutputStream
-import java.io.IOException
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
@@ -90,7 +89,7 @@ class CommandFragment : Fragment() {
 
                 if (requestBody != null) {
                     requestBody?.let {
-                        connection.doOutput = true
+//                        connection.doOutput = true
                         val outputStream = dataOutputStream
                         outputStream.writeBytes(it)
                         outputStream.flush()
